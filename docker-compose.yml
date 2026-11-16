@@ -1,0 +1,18 @@
+services:
+  modelApp-dev: # rust
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+
+    container_name: modelApp-dev
+
+    volumes:
+      - .:/workspace
+      - cargo-home:/usr/local/cargo
+    environment:
+      RUST_BACKTRACE: "1"
+      RUST_LOG: debug
+    command: sleep infinity
+
+volumes:
+  cargo-home:

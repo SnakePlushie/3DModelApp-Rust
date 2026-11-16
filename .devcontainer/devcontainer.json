@@ -1,0 +1,23 @@
+{
+  "name": "3D Model App Development",
+  "dockerComposeFile": "../compose.yaml",
+  "service": "modelApp-dev",
+  "workspaceFolder": "/modelApp",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "vadimcn.vscode-lldb"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "[rust]": {
+          "editor.defaultFormatter": "rust-lang.rust-analyzer"
+        },
+        "rust-analyzer.check.command": "clippy"
+      }
+    }
+  }
+}
