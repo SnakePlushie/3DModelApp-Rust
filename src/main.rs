@@ -1,4 +1,7 @@
-use infrastructure::r#in::controllers::app::App;
+use infrastructure::r#in::controllers::{
+    app::App,
+    mapper::{key_mapper::KeyMapper, window_event_mapper::WindowEventMapper},
+};
 use winit::{error::EventLoopError, event_loop::EventLoop};
 
 fn main() {
@@ -11,7 +14,9 @@ fn start() -> Result<(), EventLoopError> {
 
     let event_loop = EventLoop::with_user_event().build()?;
 
-    let mut app = App::new();
+    let key_mapper = KeyMapper;
+    let window_event_mapper = WindowEventMapper::new(key_mapper);
+    let mut app = App::new(window_event_mapper);
 
     event_loop.run_app(&mut app)?;
 

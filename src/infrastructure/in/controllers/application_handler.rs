@@ -3,11 +3,7 @@ use super::window_manager::WindowManager;
 
 use std::sync::Arc;
 use winit::{
-    application::ApplicationHandler,
-    event::*,
-    event_loop::ActiveEventLoop,
-    keyboard::{KeyCode, PhysicalKey},
-    window::Window,
+    application::ApplicationHandler, event::*, event_loop::ActiveEventLoop, window::Window,
 };
 
 impl ApplicationHandler<WindowManager> for App {
@@ -34,30 +30,6 @@ impl ApplicationHandler<WindowManager> for App {
         _window_id: winit::window::WindowId,
         event: WindowEvent,
     ) {
-        let state = match self.get_window_manager() {
-            Some(canvas) => canvas,
-            None => return,
-        };
-
-        match event {
-            WindowEvent::CloseRequested => event_loop.exit(),
-            WindowEvent::Resized(size) => state.resize(size.width, size.height),
-            WindowEvent::RedrawRequested => {
-                state.render();
-            }
-            WindowEvent::KeyboardInput {
-                event:
-                    KeyEvent {
-                        physical_key: PhysicalKey::Code(code),
-                        state: key_state,
-                        ..
-                    },
-                ..
-            } => match (code, key_state.is_pressed()) {
-                (KeyCode::Escape, true) => event_loop.exit(),
-                _ => {}
-            },
-            _ => {}
-        }
+        self.process_window_event(event_loop, event);
     }
 }
