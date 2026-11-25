@@ -4,4 +4,18 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-wgpu = "30.0.2"
+winit = { version = "0.30" }
+infrastructure = { path = "./src/infrastructure" }
+log = { workspace = true }
+env_logger = { workspace = true }
+
+[[bin]]
+name = "modelApp"
+
+[workspace]
+resolver = "3"
+members = ["src/infrastructure", "src/domain", "src/application"]
+
+[workspace.dependencies]
+log = "0.4"
+env_logger = "0.10"
