@@ -2,7 +2,7 @@ use super::super::window_manager::WindowManager;
 use super::key_mapper::KeyMapper;
 
 use winit::dpi::PhysicalSize;
-use winit::event::WindowEvent;
+use winit::event::{KeyEvent, WindowEvent};
 
 pub struct WindowEventMapper(KeyMapper);
 
@@ -18,7 +18,7 @@ impl WindowEventMapper {
             WindowEvent::CloseRequested => self.close_request(window_manager),
             WindowEvent::Resized(size) => self.resize_request(window_manager, size),
             WindowEvent::RedrawRequested => self.redraw_request(window_manager),
-            WindowEvent::KeyboardInput { .. } => self.keyboard_input(&event, window_manager),
+            WindowEvent::KeyboardInput { event, .. } => self.keyboard_input(&event, window_manager),
             _ => {}
         }
     }
@@ -45,9 +45,9 @@ impl WindowEventMapper {
     }
 
     /// KeyboardInput WindowEvent process
-    fn keyboard_input(&self, event: &WindowEvent, window_manager: &mut WindowManager) {
-        if let Ok(false) = self.0.to_use_case(&event) {
-            let _ = self.0.to_window_action(&event, window_manager);
+    fn keyboard_input(&self, event: &KeyEvent, window_manager: &mut WindowManager) {
+        if let Ok(false) = self.0.to_use_case(event) {
+            let _ = self.0.to_window_action(event, window_manager);
         }
     }
 }
