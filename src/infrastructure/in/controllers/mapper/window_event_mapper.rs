@@ -16,7 +16,7 @@ impl WindowEventMapper {
         match event {
             WindowEvent::CloseRequested => window_manager.request_close(),
             WindowEvent::Resized(size) => window_manager.resize(size.width, size.height),
-            WindowEvent::RedrawRequested => window_manager.render(),
+            WindowEvent::RedrawRequested => self.redraw_request(window_manager),
             WindowEvent::KeyboardInput {
                 device_id: _,
                 event: _,
@@ -27,6 +27,16 @@ impl WindowEventMapper {
                 }
             }
             _ => {}
+        }
+    }
+
+    fn redraw_request(&self, window_manager: &mut WindowManager) {
+        match window_manager.render() {
+            Ok(_) => {}
+            Err(e) => {
+                log::error!("{e:?}");
+                window_manager.request_close();
+            }
         }
     }
 }
