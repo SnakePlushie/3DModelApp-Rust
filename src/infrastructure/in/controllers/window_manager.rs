@@ -4,7 +4,7 @@ use application::{
 };
 use log::info;
 use std::sync::Arc;
-
+use wgpu::util::DeviceExt;
 use winit::window::Window;
 
 use crate::r#in::presenters::{
@@ -20,6 +20,7 @@ pub struct WindowManager {
     queue: wgpu::Queue,
     is_surface_configured: bool,
     render_pipeline: wgpu::RenderPipeline,
+    vertex_buffer: wgpu::Buffer,
     vertex_service: GetVerticesUseCase,
 }
 
@@ -75,6 +76,12 @@ impl WindowManager {
         vertex_service.execute(&mut presenter);
         let output = presenter.get_output()?.value;
 
+        let vertex_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
+            label: Some("Vertex Buffer"),
+            contents: bytemuck::cast_slice(output.as_slice()),
+            usage: wgpu::BufferUsages::VERTEX,
+        });
+
         Ok(Self {
             window: window,
             close_requested: false,
@@ -84,6 +91,7 @@ impl WindowManager {
             queue,
             is_surface_configured: false,
             render_pipeline,
+            vertex_buffer,
             vertex_service,
         })
     }
