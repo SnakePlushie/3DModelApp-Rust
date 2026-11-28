@@ -84,6 +84,9 @@ dependencies = [
 [[package]]
 name = "application"
 version = "0.1.0"
+dependencies = [
+ "domain",
+]
 
 [[package]]
 name = "arrayref"
@@ -608,6 +611,9 @@ dependencies = [
 name = "infrastructure"
 version = "0.1.0"
 dependencies = [
+ "application",
+ "bytemuck",
+ "domain",
  "env_logger",
  "log",
  "pollster",
@@ -808,6 +814,7 @@ dependencies = [
 name = "modelApp"
 version = "0.1.0"
 dependencies = [
+ "application",
  "env_logger",
  "infrastructure",
  "log",

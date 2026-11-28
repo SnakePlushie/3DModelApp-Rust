@@ -4,6 +4,8 @@ use infrastructure::r#in::controllers::{
 };
 use winit::{error::EventLoopError, event_loop::EventLoop};
 
+use application::use_cases::vertex::get_vertices::GetVerticesUseCase;
+
 fn main() {
     println!("Hello World");
     let _ = start().inspect_err(|err| println!("App Error: {err:#?}"));
@@ -16,7 +18,8 @@ fn start() -> Result<(), EventLoopError> {
 
     let key_mapper = KeyMapper;
     let window_event_mapper = WindowEventMapper::new(key_mapper);
-    let mut app = App::new(window_event_mapper);
+    let vertex_service = GetVerticesUseCase;
+    let mut app = App::new(window_event_mapper, vertex_service);
 
     event_loop.run_app(&mut app)?;
 

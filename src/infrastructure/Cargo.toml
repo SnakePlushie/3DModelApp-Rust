@@ -9,6 +9,10 @@ wgpu = "30.0"
 pollster = "0.3"
 log = { workspace = true }
 env_logger = { workspace = true }
+bytemuck = { version = "1.24", features = ["derive"] }
+application = { path = "../application" }
+domain = { path = "../domain" }
+
 
 [lib]
 path = "lib.rs"

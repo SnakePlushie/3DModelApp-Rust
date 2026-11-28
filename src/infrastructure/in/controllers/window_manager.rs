@@ -1,7 +1,15 @@
+use application::{
+    interfaces::r#in::vertex::get_vertices_interface::GetVerticesInterface,
+    use_cases::vertex::get_vertices::GetVerticesUseCase,
+};
 use log::info;
 use std::sync::Arc;
 
 use winit::window::Window;
+
+use crate::r#in::presenters::{
+    presenter::Presenter, vertex::get_vertices_presenter::GetVerticesPresenter,
+};
 
 pub struct WindowManager {
     window: Arc<Window>,
@@ -12,12 +20,14 @@ pub struct WindowManager {
     queue: wgpu::Queue,
     is_surface_configured: bool,
     render_pipeline: wgpu::RenderPipeline,
+    vertex_service: GetVerticesUseCase,
 }
 
 #[derive(Debug)]
 pub enum InitError {
     Adapter(wgpu::RequestAdapterError),
     Device(wgpu::RequestDeviceError),
+    Vertices(String),
 }
 
 impl From<wgpu::RequestAdapterError> for InitError {
@@ -32,9 +42,18 @@ impl From<wgpu::RequestDeviceError> for InitError {
     }
 }
 
+impl From<String> for InitError {
+    fn from(err: String) -> Self {
+        Self::Vertices(err)
+    }
+}
+
 impl WindowManager {
     /// WindowManager constructor
-    pub async fn new(window: Arc<Window>) -> Result<Self, InitError> {
+    pub async fn new(
+        window: Arc<Window>,
+        vertex_service: GetVerticesUseCase,
+    ) -> Result<Self, InitError> {
         // Handle to our GPU / instance of WGPU
         let instance = Self::get_wgpu_instance();
 
@@ -50,7 +69,12 @@ impl WindowManager {
         let config = Self::get_config(&window, &surface, &adapter);
 
         let render_pipeline = Self::get_render_pipeline(&device, &config);
- 
+
+        let mut presenter = GetVerticesPresenter::new();
+
+        vertex_service.execute(&mut presenter);
+        let output = presenter.get_output()?.value;
+
         Ok(Self {
             window: window,
             close_requested: false,
@@ -60,6 +84,7 @@ impl WindowManager {
             queue,
             is_surface_configured: false,
             render_pipeline,
+            vertex_service,
         })
     }
 

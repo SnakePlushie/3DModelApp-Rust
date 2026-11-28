@@ -1,3 +1,4 @@
+use application::use_cases::vertex::get_vertices::GetVerticesUseCase;
 use winit::event::WindowEvent;
 use winit::event_loop::ActiveEventLoop;
 
@@ -7,15 +8,22 @@ use super::window_manager::WindowManager;
 pub struct App {
     window_manager: Option<WindowManager>,
     window_event_mapper: WindowEventMapper,
+    vertex_service: GetVerticesUseCase,
 }
 
 impl App {
     /// WindowEventMapper constructor
-    pub fn new(window_event_mapper: WindowEventMapper) -> Self {
+    pub fn new(window_event_mapper: WindowEventMapper, vertex_service: GetVerticesUseCase) -> Self {
         Self {
             window_manager: None,
             window_event_mapper,
+            vertex_service,
         }
+    }
+
+    /// Getter for the verte service
+    pub fn get_vertex_service(&self) -> GetVerticesUseCase {
+        self.vertex_service
     }
 
     /// Setter for a window manager

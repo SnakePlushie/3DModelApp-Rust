@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 winit = { version = "0.30" }
 infrastructure = { path = "./src/infrastructure" }
+application = { path = "./src/application" }
 log = { workspace = true }
 env_logger = { workspace = true }
 
