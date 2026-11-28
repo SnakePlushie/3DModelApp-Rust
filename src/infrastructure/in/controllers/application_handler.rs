@@ -15,7 +15,7 @@ impl ApplicationHandler<WindowManager> for App {
 
         // We use pollster to await the window creation
         self.set_window_manager(Some(
-            pollster::block_on(WindowManager::new(window)).unwrap(),
+            pollster::block_on(WindowManager::new(window, self.get_vertex_service())).unwrap(),
         ));
     }
 
