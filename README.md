@@ -16,6 +16,8 @@ Subolders designations :
   - Entity: unique object (ex: user)
   - ValueObject: non unique object, data holder (ex: adress with city, country, etc)
   - Service: execute an operation and verify business logic
+  - Tests / Unit
+    - Entities
 
 - Application:
   - Dto: tranfer object from infra to application
