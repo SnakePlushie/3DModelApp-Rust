@@ -1,6 +1,6 @@
 use domain::entities::vertex::Vertex;
 
-use crate::r#in::dto::vertex::vertex_output::VertexOutput;
+use crate::r#in::output::vertex::vertex_output::VertexOutput;
 
 impl From<Vertex> for VertexOutput {
     fn from(vertex: Vertex) -> Self {

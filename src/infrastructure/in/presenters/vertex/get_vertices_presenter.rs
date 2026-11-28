@@ -1,5 +1,5 @@
 use crate::r#in::{
-    dto::vertex::{get_vertices_output::GetVerticesOutput, vertex_output::VertexOutput},
+    output::vertex::{get_vertices_output::GetVerticesOutput, vertex_output::VertexOutput},
     presenters::presenter::Presenter,
 };
 use application::{

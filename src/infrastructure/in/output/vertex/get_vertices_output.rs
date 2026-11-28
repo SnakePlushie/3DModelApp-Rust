@@ -1,4 +1,4 @@
-use crate::r#in::dto::vertex::vertex_output::VertexOutput;
+use crate::r#in::output::vertex::vertex_output::VertexOutput;
 
 #[derive(Clone, Debug)]
 pub struct GetVerticesOutput {
